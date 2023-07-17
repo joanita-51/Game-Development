@@ -56,4 +56,5 @@ function update(){
       blueEnemy.position.y =1
     }
   }
+  detectCollisions();
 }
