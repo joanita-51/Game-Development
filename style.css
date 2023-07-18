@@ -1,3 +1,24 @@
 canvas{
   border:2px solid purple;
+  position:absolute;
+  top:30px;
+  left:0;
+  bottom:0;
+  right:0;
+  margin:auto;
+  background-color:#FFCACC
+}
+
+#reload-button{
+  display:block;
+  border-radius:10px;
+  margin:0 auto;
+  background-color:#DBC4F0;
+  cursor: pointer;
+  padding-bottom:10px;
+  padding-top:10px;
+  padding-left:20px;
+  padding-right:20px
+  
+  
 }

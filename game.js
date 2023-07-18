@@ -41,12 +41,20 @@ paper.view.onKeyDown = function (event) {
 function detectCollisions() {
   if (player.intersects(blueEnemy)) {
     lives--;
-    if (lives == 0) {
+    console.log(lives);
+    if (lives === 0) {
       gameOver = true;
-    }else {
-    blueEnemy.position.y = 1; //The position from which the box falls
+      const reloadButton = document.createElement("button");
+      reloadButton.id = "reload-button";
+      reloadButton.innerText = "Play Again";
+      reloadButton.addEventListener("click", function () {
+        location.reload();
+      });
+      document.body.appendChild(reloadButton);
+    } else {
+      blueEnemy.position.y = 1; //The position from which the box falls
+    }
   }
-  } 
 }
 
 function update() {
@@ -54,6 +62,8 @@ function update() {
     blueEnemy.position.y += 3; //The speed at which the box is falling
     if (blueEnemy.position.y > paper.view.size.height) {
       score++;
+      blueEnemy.position.x =
+        Math.random() * (paper.view.size.width - blueEnemy.bounds.width); //Making the enemy fall randomly but within the boundary
       blueEnemy.position.y = 1;
     }
     detectCollisions();
@@ -70,19 +80,21 @@ function update() {
 
   //Score
   const scoreText = new paper.PointText({
-    point: [10,20],
+    point: [10, 20],
     content: "Score: " + score,
     fillColor: "black",
-    fontSize:16,
-  })
+    fontSize: 16,
+  });
 
-    //Lives
+  //Lives
   const livesText = new paper.PointText({
-    point: [10,60],
+    point: [10, 60],
     content: "Lives: " + lives,
     fillColor: "black",
-    fontSize:16,
-  })
+    fontSize: 16,
+  });
+  paper.project.activeLayer.addChild(livesText);
+  paper.project.activeLayer.addChild(scoreText);
 }
 
 paper.view.onFrame = function (event) {
