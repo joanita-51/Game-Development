@@ -22,6 +22,14 @@ const blueEnemy = new paper.Path.Rectangle({
   point: [paper.view.center.x - 20, 10],
 });
 
+//create another enemy
+const greenEnemy = new paper.Path.Rectangle({
+  size: [40.4],
+  fillColor: "green",
+  point: [paper.view.center.x - 20, 10],
+});
+
+
 // It is easy to assign an anonymous function to another variable
 paper.view.onKeyDown = function (event) {
   if (event.key === "left") {
@@ -39,7 +47,7 @@ paper.view.onKeyDown = function (event) {
 
 //Detect collisions
 function detectCollisions() {
-  if (player.intersects(blueEnemy)) {
+  if (player.intersects(blueEnemy) || player.intersects(greenEnemy)) {
     lives--;
     console.log(lives);
     if (lives === 0) {
@@ -53,18 +61,26 @@ function detectCollisions() {
       document.body.appendChild(reloadButton);
     } else {
       blueEnemy.position.y = 1; //The position from which the box falls
+      greenEnemy.position.y=1;
     }
   }
 }
 
 function update() {
   if (!gameOver) {
-    blueEnemy.position.y += 3; //The speed at which the box is falling
+    blueEnemy.position.y += 2; //The speed at which the box is falling i.e 2px per second
+    greenEnemy.position.y +=4; // falling at 4px persecond
     if (blueEnemy.position.y > paper.view.size.height) {
       score++;
       blueEnemy.position.x =
         Math.random() * (paper.view.size.width - blueEnemy.bounds.width); //Making the enemy fall randomly but within the boundary
       blueEnemy.position.y = 1;
+    }
+    if (greenEnemy.position.y > paper.view.size.height) {
+      score++;
+      greenEnemy.position.x =
+        Math.random() * (paper.view.size.width - blueEnemy.bounds.width); //Making the enemy fall randomly but within the boundary
+      greenEnemy.position.y = 1;
     }
     detectCollisions();
   }
@@ -77,6 +93,7 @@ function update() {
 
   //Add enemy
   paper.project.activeLayer.addChild(blueEnemy);
+    paper.project.activeLayer.addChild(greenEnemy);
 
   //Score
   const scoreText = new paper.PointText({
